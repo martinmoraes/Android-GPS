@@ -62,7 +62,20 @@
             android:layout_height="wrap_content"/>
     </TableRow>
 
+    <TableRow
+        android:id="@+id/distanciaGPSTableRow"
+        android:visibility="gone">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distância"/>
+
+        <TextView
+            android:id="@+id/distanciaGPSTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
 
 
     <!--NETWORK PROVIDER-->
@@ -117,5 +130,28 @@
             android:layout_height="wrap_content"/>
     </TableRow>
 
+    <TableRow
+        android:id="@+id/distanciaNETWORKTableRow"
+        android:visibility="gone">
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distância"/>
+
+        <TextView
+            android:id="@+id/distanciaNETWORKTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+        <Button
+            android:id="@+id/calculaDistanciaButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distância daqui"
+            android:onClick="calculaDistancia"/>
+    </TableRow>
 </TableLayout>

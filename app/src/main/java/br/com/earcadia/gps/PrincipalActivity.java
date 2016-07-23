@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -183,6 +184,14 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
 
+    public void calculaDistancia(View view){
+        TableRow distanciaGPSTableRow = (TableRow) findViewById(R.id.distanciaGPSTableRow);
+        TableRow distanciaNETWORKTableRow = (TableRow) findViewById(R.id.distanciaNETWORKTableRow);
+
+        distanciaGPSTableRow.setVisibility(View.VISIBLE);
+        distanciaNETWORKTableRow.setVisibility(View.VISIBLE);
+
+    }
 }
 
 
