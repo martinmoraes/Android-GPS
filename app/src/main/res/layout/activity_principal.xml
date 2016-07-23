@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="br.com.earcadia.gps.PrincipalActivity">
+
+    <!--GPS PROVIDER-->
+    <TableRow>
+
+        <TextView
+            android:id="@+id/gpsProviderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPS PROVIDER"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude"/>
+
+        <TextView
+            android:id="@+id/latitudeGPSTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude"/>
+
+        <TextView
+            android:id="@+id/longitudeGPSTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Altura"/>
+
+        <TextView
+            android:id="@+id/alturaGPSTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+
+
+
+    <!--NETWORK PROVIDER-->
+    <TableRow>
+
+        <TextView
+            android:id="@+id/networkProviderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NETWORK PROVIDER"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude"/>
+
+        <TextView
+            android:id="@+id/latitudeNETWORKTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude"/>
+
+        <TextView
+            android:id="@+id/longitudeNETWORKTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Altura"/>
+
+        <TextView
+            android:id="@+id/alturaNETWORKTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+
+</TableLayout>
