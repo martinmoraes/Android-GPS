@@ -10,17 +10,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.com.earcadia.gps.PrincipalActivity">
 
-    <!--GPS PROVIDER-->
+    <!--TIMER-->
+    <TableRow>
+
+
+    </TableRow>
+
+
+    <!--Gps PROVIDER-->
     <TableRow>
 
         <TextView
             android:id="@+id/gpsProviderTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GPS PROVIDER"
+            android:text="@string/gps_provider"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16dp"
             android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/horarioUltimaLeituraGpsTextTive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/horario_ultima_leitura"
+            android:layout_marginLeft="10dp"/>
     </TableRow>
 
     <TableRow>
@@ -31,7 +45,7 @@
             android:text="Latitude"/>
 
         <TextView
-            android:id="@+id/latitudeGPSTextView"
+            android:id="@+id/latitudeGpsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -44,7 +58,20 @@
             android:text="Longitude"/>
 
         <TextView
-            android:id="@+id/longitudeGPSTextView"
+            android:id="@+id/longitudeGpsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precisão"/>
+
+        <TextView
+            android:id="@+id/precisaoGpsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -57,13 +84,13 @@
             android:text="Altura"/>
 
         <TextView
-            android:id="@+id/alturaGPSTextView"
+            android:id="@+id/alturaGpsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
 
     <TableRow
-        android:id="@+id/distanciaGPSTableRow"
+        android:id="@+id/distanciaGpsTableRow"
         android:visibility="gone">
 
         <TextView
@@ -72,23 +99,30 @@
             android:text="Distância"/>
 
         <TextView
-            android:id="@+id/distanciaGPSTextView"
+            android:id="@+id/distanciaGpsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
 
 
-    <!--NETWORK PROVIDER-->
+    <!--Network PROVIDER-->
     <TableRow>
 
         <TextView
             android:id="@+id/networkProviderTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NETWORK PROVIDER"
+            android:text="@string/network_provider"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16dp"
             android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/horarioUltimaLeituraNetworkTextTive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/horario_ultima_leitura"
+            android:layout_marginLeft="10dp"/>
     </TableRow>
 
     <TableRow>
@@ -99,7 +133,7 @@
             android:text="Latitude"/>
 
         <TextView
-            android:id="@+id/latitudeNETWORKTextView"
+            android:id="@+id/latitudeNetworkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -112,7 +146,20 @@
             android:text="Longitude"/>
 
         <TextView
-            android:id="@+id/longitudeNETWORKTextView"
+            android:id="@+id/longitudeNetworkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precisão"/>
+
+        <TextView
+            android:id="@+id/precisaoNetworkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -125,13 +172,13 @@
             android:text="Altura"/>
 
         <TextView
-            android:id="@+id/alturaNETWORKTextView"
+            android:id="@+id/alturaNetworkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
 
     <TableRow
-        android:id="@+id/distanciaNETWORKTableRow"
+        android:id="@+id/distanciaNetworkTableRow"
         android:visibility="gone">
 
 
@@ -141,7 +188,7 @@
             android:text="Distância"/>
 
         <TextView
-            android:id="@+id/distanciaNETWORKTextView"
+            android:id="@+id/distanciaNetworkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -151,7 +198,8 @@
             android:id="@+id/calculaDistanciaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distância daqui"
-            android:onClick="calculaDistancia"/>
+            android:text="@string/fazendo_leitura"
+            android:onClick="calculaDistancia"
+            android:enabled="false"/>
     </TableRow>
 </TableLayout>

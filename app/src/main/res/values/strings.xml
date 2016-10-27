@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GPS</string>
+    <string name="daqui">Distância daqui</string>
+    <string name="ate">Até daqui</string>
+    <string name="network_provider">NETWORK PROVIDER</string>
+    <string name="gps_provider">GPS PROVIDER</string>
+    <string name="fazendo_leitura">Fazendo leitura</string>
+    <string name="horario_ultima_leitura">Horario da última leitura</string>
 </resources>

@@ -16,18 +16,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class PrincipalActivity extends AppCompatActivity {
-    TextView longitudeGPSTextView, latitudeGPSTextView, alturaGPSTextView,
-            longitudeNETWORKTextView, latitudeNETWORKTextView, alturaNETWORKTextView,
-            networkProviderTextView, gpsProviderTextView;
+    TextView longitudeGpsTextView, latitudeGpsTextView, alturaGpsTextView, precisaoGpsTextView,
+            longitudeNetworkTextView, latitudeNetworkTextView, alturaNetworkTextView, precisaoNetworkTextView,
+            networkProviderTextView, gpsProviderTextView,
+            horarioUltimaLeituraGpsTextView, horarioUltimaLeituraNetworkTextView;
+    Button calculaDistanciaButton;
     LocationManager locationManager;
     LocationListener locationListener = null;
+    Double longitudeGpsUltima, latitudeGpsUltima, longitudeNetworkUltima, latitudeNetworkUltima,
+            longitudeGpsGuardada, latitudeGpsGuardada, longitudeNetworkGuardada, latitudeNetworkGuardada;
+    boolean leituraGps = false, leituraNetwork = false;
+    boolean temPrimeiraTomada = false;
+    DateFormat dateFormat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +46,26 @@ public class PrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_principal);
 
         Log.d("MEUAPP", "onCreate()");
-        longitudeGPSTextView = (TextView) findViewById(R.id.longitudeGPSTextView);
-        latitudeGPSTextView = (TextView) findViewById(R.id.latitudeGPSTextView);
-        alturaGPSTextView = (TextView) findViewById(R.id.alturaGPSTextView);
+        calculaDistanciaButton = (Button) findViewById(R.id.calculaDistanciaButton);
 
-        longitudeNETWORKTextView = (TextView) findViewById(R.id.longitudeNETWORKTextView);
-        latitudeNETWORKTextView = (TextView) findViewById(R.id.latitudeNETWORKTextView);
-        alturaNETWORKTextView = (TextView) findViewById(R.id.alturaNETWORKTextView);
+        longitudeGpsTextView = (TextView) findViewById(R.id.longitudeGpsTextView);
+        latitudeGpsTextView = (TextView) findViewById(R.id.latitudeGpsTextView);
+        precisaoGpsTextView = (TextView) findViewById(R.id.precisaoGpsTextView);
+        alturaGpsTextView = (TextView) findViewById(R.id.alturaGpsTextView);
+
+        longitudeNetworkTextView = (TextView) findViewById(R.id.longitudeNetworkTextView);
+        latitudeNetworkTextView = (TextView) findViewById(R.id.latitudeNetworkTextView);
+        precisaoNetworkTextView  = (TextView) findViewById(R.id.precisaoNetworkTextView);
+        alturaNetworkTextView = (TextView) findViewById(R.id.alturaNetworkTextView);
 
         networkProviderTextView = (TextView) findViewById(R.id.networkProviderTextView);
         gpsProviderTextView = (TextView) findViewById(R.id.gpsProviderTextView);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        horarioUltimaLeituraGpsTextView = (TextView) findViewById(R.id.horarioUltimaLeituraGpsTextTive);
+        horarioUltimaLeituraNetworkTextView = (TextView) findViewById(R.id.horarioUltimaLeituraNetworkTextTive);
+        dateFormat = DateFormat.getTimeInstance(DateFormat.LONG);
     }
 
 
@@ -57,7 +76,7 @@ public class PrincipalActivity extends AppCompatActivity {
         }
     }
 
-    public void startGPS() {
+    public void iniciaGerenciadoresDeLocalizacao() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) { // Determina se precisa de um EXPLANAÇÃO
                 //Depois do usuáiro vêr a explicação, solicitar novamente a permissão.
@@ -69,18 +88,7 @@ public class PrincipalActivity extends AppCompatActivity {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.5f, locationListener);
         } else {
-            Toast.makeText(this, "GPS não ativo", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    public void startNETWORK() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) { // Determina se precisa de um EXPLANAÇÃO
-                //Depois do usuáiro vêr a explicação, solicitar novamente a permissão.
-            } else {                    // Não necessita de explanação, pode requerer a permissão.
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MINHA_SOLICITACAO_DE_PERMICAO_DE_LOCALIZACAO);
-            }
+            Toast.makeText(this, "Gps não ativo", Toast.LENGTH_SHORT).show();
         }
 
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -93,32 +101,52 @@ public class PrincipalActivity extends AppCompatActivity {
     private void locationListener() {
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-                String provider = location.getProvider();
 
+                String provider = location.getProvider();
                 switch (provider) {
                     case "gps":
-                        Log.d("MEUAPP", "onLocationChanged: LocationManager.GPS_PROVIDER");
-                        longitudeGPSTextView.setText(String.valueOf(location.getLongitude()));
-                        latitudeGPSTextView.setText(String.valueOf(location.getLatitude()));
-                        alturaGPSTextView.setText(String.valueOf(location.getAltitude()));
+                        Log.d("MEUAPP", "onLocationChanged: LocationManager.Gps_PROVIDER");
+                        longitudeGpsUltima = location.getLongitude();
+                        latitudeGpsUltima = location.getLatitude();
+                        longitudeGpsTextView.setText(String.valueOf(longitudeGpsUltima));
+                        latitudeGpsTextView.setText(String.valueOf(latitudeGpsUltima));
+                        precisaoGpsTextView.setText(String.valueOf(location.getAccuracy()));
+                        alturaGpsTextView.setText(String.valueOf(location.getAltitude()));
+                        leituraGps = true;
+                        horarioUltimaLeituraGpsTextView.setText(dateFormat.format(Calendar.getInstance().getTime()));
                         break;
                     case "network":
-                        Log.d("MEUAPP", "onLocationChanged: LocationManager.NETWORK_PROVIDER");
-                        longitudeNETWORKTextView.setText(String.valueOf(location.getLongitude()));
-                        latitudeNETWORKTextView.setText(String.valueOf(location.getLatitude()));
-                        alturaNETWORKTextView.setText(String.valueOf(location.getAltitude()));
+                        Log.d("MEUAPP", "onLocationChanged: LocationManager.Network_PROVIDER");
+                        longitudeNetworkUltima = location.getLongitude();
+                        latitudeNetworkUltima = location.getLatitude();
+                        longitudeNetworkTextView.setText(String.valueOf(longitudeNetworkUltima));
+                        latitudeNetworkTextView.setText(String.valueOf(latitudeNetworkUltima));
+                        precisaoNetworkTextView.setText(String.valueOf(location.getAccuracy()));
+                        alturaNetworkTextView.setText(String.valueOf(location.getAltitude()));
+                        leituraNetwork = true;
+                        horarioUltimaLeituraNetworkTextView.setText(dateFormat.format(Calendar.getInstance().getTime()));
                         break;
                 }
+
+                if (!calculaDistanciaButton.isEnabled() && leituraGps && leituraNetwork) {
+                    calculaDistanciaButton.setEnabled(true);
+                    if (!temPrimeiraTomada) {
+                        calculaDistanciaButton.setText(getString(R.string.daqui));
+                    } else {
+                        calculaDistanciaButton.setText(getString(R.string.ate));
+                    }
+                }
             }
+
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 Log.d("MEUAPP", "onStatusChanged: " + provider);
                 switch (provider) {
                     case "gps":
-                        gpsProviderTextView.setText("GPS PROVIDER - " + condicaoDoProvedor(status));
+                        gpsProviderTextView.setText(getString(R.string.gps_provider) + " - " + condicaoDoProvedor(status));
                         break;
                     case "network":
-                        networkProviderTextView.setText("NETWORK PROVIDER - " + condicaoDoProvedor(status));
+                        networkProviderTextView.setText(getString(R.string.network_provider) + " - " + condicaoDoProvedor(status));
                         break;
                 }
 
@@ -139,7 +167,7 @@ public class PrincipalActivity extends AppCompatActivity {
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
                 return "Temporariamente indisponível";
             case LocationProvider.AVAILABLE:
-                return "Disponível";
+                return "";//"Disponível";
         }
         return null;
     }
@@ -150,8 +178,7 @@ public class PrincipalActivity extends AppCompatActivity {
         locationListener();
         identificandoProvider();
 //        verificandoLocalizadorAtivo();
-        startGPS();
-        startNETWORK();
+        iniciaGerenciadoresDeLocalizacao();
     }
 
     @Override
@@ -184,13 +211,35 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
 
-    public void calculaDistancia(View view){
-        TableRow distanciaGPSTableRow = (TableRow) findViewById(R.id.distanciaGPSTableRow);
-        TableRow distanciaNETWORKTableRow = (TableRow) findViewById(R.id.distanciaNETWORKTableRow);
+    public void calculaDistancia(View view) {
 
-        distanciaGPSTableRow.setVisibility(View.VISIBLE);
-        distanciaNETWORKTableRow.setVisibility(View.VISIBLE);
+        if (temPrimeiraTomada) {
+            TableRow distanciaGpsTableRow = (TableRow) findViewById(R.id.distanciaGpsTableRow);
+            TableRow distanciaNetworkTableRow = (TableRow) findViewById(R.id.distanciaNetworkTableRow);
+            distanciaGpsTableRow.setVisibility(View.VISIBLE);
+            distanciaNetworkTableRow.setVisibility(View.VISIBLE);
+            float[] distanciaCalculada = new float[3];
+            Location.distanceBetween(latitudeGpsGuardada, longitudeGpsGuardada, latitudeGpsUltima, longitudeGpsUltima, distanciaCalculada);
+            ((TextView) findViewById(R.id.distanciaGpsTextView)).setText(String.valueOf(distanciaCalculada[0]));
+            Location.distanceBetween(latitudeNetworkGuardada, longitudeNetworkGuardada, latitudeNetworkUltima, longitudeNetworkUltima, distanciaCalculada);
+            ((TextView) findViewById(R.id.distanciaNetworkTextView)).setText(String.valueOf(distanciaCalculada[0]));
+            calculaDistanciaButton.setText(getString(R.string.daqui));
+            temPrimeiraTomada = false;
 
+            for (int x = 0; x < distanciaCalculada.length; x++) {
+                Log.d("MEUAPP", "Posição " + x + ":" + distanciaCalculada[x]);
+            }
+        } else {
+            longitudeGpsGuardada = longitudeGpsUltima;
+            latitudeGpsGuardada = latitudeGpsUltima;
+            longitudeNetworkGuardada = longitudeNetworkUltima;
+            latitudeNetworkGuardada = latitudeNetworkUltima;
+            calculaDistanciaButton.setText(getString(R.string.fazendo_leitura));
+            temPrimeiraTomada = true;
+            calculaDistanciaButton.setEnabled(false);
+            leituraGps = false;
+            leituraNetwork = false;
+        }
     }
 }
 
